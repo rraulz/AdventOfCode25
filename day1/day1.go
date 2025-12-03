@@ -1,10 +1,7 @@
 package day1
 
 import (
-	"bufio"
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 )
 
@@ -17,28 +14,36 @@ func Solution() {
 	fmt.Println("Day1 Exercise:")
 
 	filaName := "day1/instructions.txt"
-	file, err := os.Open(filaName)
-	if err != nil {
-		log.Fatalf("Error opening file(path: %s): %v", filaName, err)
-	}
-	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	code, err := processLockInstructions(scanner)
+	fileLines, err := ReadFile(filaName)
+	if err != nil {
+		fmt.Printf("Error reading file: %v\n", err)
+		return
+	}
+
+	code, err := processLockInstructions(fileLines)
 	if err != nil {
 		fmt.Printf("Error processing instructions: %v\n", err)
 		return
 	}
 
 	fmt.Printf("Solution is: %d\n", code)
+
+	code_0x434C49434B, err := processLockInstructions_0x434C49434B(fileLines)
+	if err != nil {
+		fmt.Printf("Error processing instructions: %v\n", err)
+		return
+	}
+
+	fmt.Printf("Solution 0x434C49434B is: %d\n", code_0x434C49434B)
 }
 
-func processLockInstructions(sc *bufio.Scanner) (int, error) {
+func processLockInstructions(fileLines []string) (int, error) {
 	zeros := 0
 	lockPosition := startLockPosition
 
-	for sc.Scan() {
-		line := sc.Text()
+	for _, line := range fileLines {
+
 		side, value, err := parseLine(line)
 		if err != nil {
 			return 0, fmt.Errorf("parse error in line '%s': %w", line, err)
@@ -54,6 +59,33 @@ func processLockInstructions(sc *bufio.Scanner) (int, error) {
 		lockPosition = ((lockPosition % lockModulo) + lockModulo) % lockModulo
 		if lockPosition == 0 {
 			zeros++
+		}
+	}
+	return zeros, nil
+}
+
+func processLockInstructions_0x434C49434B(fileLines []string) (int, error) {
+	zeros := 0
+	lockPosition := startLockPosition
+	for _, line := range fileLines {
+		side, value, err := parseLine(line)
+		if err != nil {
+			return 0, fmt.Errorf("parse error in line '%s': %w", line, err)
+		}
+
+		remaining := value % 100
+		zeros += value / 100
+
+		if side == Left {
+			if (lockPosition != 0 && lockPosition-remaining < 0) || lockPosition-remaining == 0 {
+				zeros++
+			}
+			lockPosition = (lockPosition + (lockModulo - remaining)) % lockModulo
+		} else {
+			if lockPosition+remaining > lockModulo-1 {
+				zeros++
+			}
+			lockPosition = (lockPosition + remaining) % lockModulo
 		}
 	}
 	return zeros, nil
