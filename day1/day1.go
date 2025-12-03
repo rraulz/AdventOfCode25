@@ -1,6 +1,7 @@
 package day1
 
 import (
+	"AdventOfCode25/utils"
 	"fmt"
 	"strconv"
 )
@@ -15,7 +16,7 @@ func Solution() {
 
 	filaName := "day1/instructions.txt"
 
-	fileLines, err := ReadFile(filaName)
+	fileLines, err := utils.ReadFile(filaName)
 	if err != nil {
 		fmt.Printf("Error reading file: %v\n", err)
 		return

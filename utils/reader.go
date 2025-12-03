@@ -1,4 +1,4 @@
-package day1
+package utils
 
 import (
 	"bufio"
