@@ -50,7 +50,7 @@ func sumInvalidIds(input string) (int, error) {
 
 	sumInvalidIds := 0
 	for i := start; i <= end; i++ {
-		if isIdInvalid(i) {
+		if isIdInvalidSecondPart(i) {
 			sumInvalidIds += i
 		}
 	}
@@ -65,4 +65,31 @@ func isIdInvalid(i int) bool {
 		return true
 	}
 	return false
+}
+
+func isIdInvalidSecondPart(i int) bool {
+	str := fmt.Sprintf("%d", i)
+	l := len(str)
+	for chunkSize := 1; chunkSize <= l/2; chunkSize++ {
+		chunkToCompare := str[0:chunkSize]
+		if checkChunks(str, l, chunkSize, chunkToCompare) {
+			return true
+		}
+	}
+	return false
+}
+
+func checkChunks(word string, wordLength int, chunkSize int, chunkToCompare string) bool {
+	if wordLength%chunkSize != 0 {
+		return false
+	}
+
+	for pointer := chunkSize; pointer+chunkSize <= wordLength; pointer = pointer + chunkSize {
+		if word[pointer:pointer+chunkSize] != chunkToCompare {
+			return false
+		}
+	}
+
+	println(word)
+	return true
 }
