@@ -10,7 +10,6 @@ import (
 func Solution() {
 	fmt.Println("Day2 Exercise:")
 
-	//filaName := "day2/test.txt"
 	filaName := "day2/instructions.txt"
 
 	fileLines, err := utils.ReadFile(filaName)
