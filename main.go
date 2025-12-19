@@ -1,12 +1,12 @@
 package main
 
 import (
-	"AdventOfCode25/day3"
+	"AdventOfCode25/day4"
 	"fmt"
 )
 
 func main() {
 	fmt.Printf("Hello and welcome!\n")
 
-	day3.Solution()
+	day4.Solution()
 }
