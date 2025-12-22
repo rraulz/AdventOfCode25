@@ -13,10 +13,36 @@ type Pair struct {
 	low, high int
 }
 
+func (p Pair) Contains(other Pair) bool {
+	if (other.high <= p.high) && (other.low >= p.low) {
+		return true
+	}
+	return false
+}
+
+// P (25-35) - Other (20-30) = TRUE
+func (p Pair) OverlapsHigh(other Pair) bool {
+	if (other.high <= p.high) && (other.high >= p.low) && (other.low <= p.low) {
+		return true
+	}
+	return false
+}
+
+// P (20-30) - Other (25-35) = TRUE
+func (p Pair) OverlapsLow(other Pair) bool {
+	if (other.low >= p.low) && (other.low <= p.high) && (other.high >= p.low) {
+		return true
+	}
+	return false
+}
+
+func (p Pair) String() string {
+	return fmt.Sprintf("%d-%d", p.low, p.high)
+}
+
 func Solution() {
 
 	filaName := "day5/input.txt"
-	//filaName := "day5/input.txt"
 
 	lines, err := utils.ReadFile(filaName)
 	if err != nil {
