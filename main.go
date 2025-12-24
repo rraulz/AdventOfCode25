@@ -8,5 +8,5 @@ import (
 func main() {
 	fmt.Printf("Hello and welcome!\n")
 
-	day7.Solution()
+	day7.Solution2()
 }
